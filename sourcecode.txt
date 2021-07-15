@@ -1,0 +1,1490 @@
+-- overcast and light rain
+-- by donswelt.de
+
+ cartdata("donswelt_overcast") 
+ 
+ -- reset data
+ -- dset(11,0) dset(12,0) dset(13,0) dset(14,0) dset(15,0) dset(16,0) dset(17,0) dset(18,0) dset(19,0) dset(20,0) dset(21,0) dset(22,0) dset(23,0) dset(24,0) dset(25,0) dset(26,0) dset(31,0) dset(32,0) dset(33,0) dset(34,0) dset(35,0) dset(36,0) dset(37,0) dset(38,0) dset(39,0) dset(40,0) dset(41,0) dset(42,0) dset(43,0) dset(44,0) dset(45,0) dset(46,0) dset(0,0) dset(1,0) dset(2,0) dset(3,0) dset(4,0) dset(5,0) dset(6,0) dset(7,0)
+
+ -- pawchievements
+ paw1=dget(51) paw2=dget(52) paw3=dget(53) paw4=dget(54) paw5=dget(55) paw6=dget(56)
+ paws1="…" paws2="…" paws3="…" paws4="…" paws5="…" paws6="…"
+ pawc1=0 pawc2=0 pawc3=0 pawc4=0 pawc5=0 pawc6=0
+
+ -- all the stats
+ playtime=dget(0)
+ statfish=dget(1)
+ statfood=dget(2)
+ stateggs=dget(3)
+ statcrop=dget(4)
+ statcat=dget(5)
+ statseed=dget(6)
+ gotfugu=dget(7)
+ jumps=dget(8)
+ happycat=dget(9)
+ sleepyhead=dget(10)
+ fishpedia01=dget(11)
+ fishpedia02=dget(12)
+ fishpedia03=dget(13)
+ fishpedia04=dget(14)
+ fishpedia05=dget(15)
+ fishpedia06=dget(16)
+ fishpedia07=dget(17)
+ fishpedia08=dget(18)
+ fishpedia09=dget(19)
+ fishpedia10=dget(20)
+ fishpedia11=dget(21)
+ fishpedia12=dget(22)
+ fishpedia13=dget(23)
+ fishpedia14=dget(24)
+ fishpedia15=dget(25)
+ fishpedia16=dget(26) 
+ fishpedia=flr((fishpedia01+fishpedia02+fishpedia03+fishpedia04+fishpedia05+fishpedia06+fishpedia07+fishpedia08+fishpedia09+fishpedia10+fishpedia11+fishpedia12+fishpedia13+fishpedia14+fishpedia15+fishpedia16)*100/16)
+ 
+ foodpedia01=dget(31)
+ foodpedia02=dget(32)
+ foodpedia03=dget(33)
+ foodpedia04=dget(34)
+ foodpedia05=dget(35)
+ foodpedia06=dget(36)
+ foodpedia07=dget(37)
+ foodpedia08=dget(38)
+ foodpedia09=dget(39)
+ foodpedia10=dget(40)
+ foodpedia11=dget(41)
+ foodpedia12=dget(42)
+ foodpedia13=dget(43)
+ foodpedia14=dget(44)
+ foodpedia15=dget(45)
+ foodpedia16=dget(46)
+ foodpedia=flr((foodpedia01+foodpedia02+foodpedia03+foodpedia04+foodpedia05+foodpedia06+foodpedia07+foodpedia08+foodpedia09+foodpedia10+foodpedia11+foodpedia12+foodpedia13+foodpedia14+foodpedia15+foodpedia16)*100/16)
+
+	---------------------------- !
+
+ function _init()
+
+ i=0
+ ii=0
+ iii=0
+ px=41
+ py=47
+ pa=72
+ pm=0
+ pmx=0
+ pmy=0
+ pf=false
+ plants=0
+ dropis=0
+ weather=0
+ weathernew=flr(rnd(1000))+300
+ rainorsnow=flr(rnd(1))
+ weathertype=flr(rnd(3))
+ weatherhow=flr(rnd(16))+1
+ doing=2
+ rodx=128
+ rody=128
+ roda=69
+ canx=0
+ cany=128
+ rodgo=8
+ bite=0
+ eggm=0
+ phop=0
+ log="press 🅾️ and read the sign "
+ logy=20
+ logs=-175
+ cx=128+flr(rnd(400))
+ cy=flr(rnd(128))-8
+ bx=flr(rnd(256))+128
+ by=384
+ ba=82
+ logo=148
+ logoa=0
+ logos=13.5
+ foodon=0
+ iz=0
+ sign=141
+ signs=17
+ signon=0
+ snore=-1
+ cat=86
+ cax=108
+ cay=64
+ caf=true
+ cad=5
+ cai=0
+ seeding=0
+ seedmax=0
+ butter=0
+ banim=160
+ bmove=0
+ butf=false
+ bux=flr(rnd(120))
+ buy=flr(rnd(120))
+ flower=0
+ anima=0
+ fischchance=0
+ foodchance=0
+ eggcounter=0
+ watered=0
+ growflow=0
+ growspeed=1
+ catsleep=0
+ cropcounter=0
+ completed=""
+ idle=0
+ jumo=0
+ spark={}
+ water={}
+ seed={}
+	food={}
+	smoke={}
+ egg={}
+ zzz={}
+ catis="sad"
+ chick={}
+ fish={}
+ rain={}
+ patch={}
+ drop={}
+ ftype={"common blue fish", "common red fish", "common grey fish", "sea star", "frog", "shark", "can of coke", "octopus", "cat fish?!", "koi", "seahorse", "moon fish", "anchor", "gomez!?", "golden coin", "fugu!"}
+ ptype={"carrot", "pumpkin", "tomatoes", "corn"}
+ foodt={"pizza", "bread and honey", "ice cream", "chicken leg", "burger", "miso soup", "pancakes", "chana masala", "croisant", "tamago", "chicken'n'waffles", "fried egg", "six minute egg", "salad", "dango", "fugu sashimi!"}  
+ starttime=time()
+ pal(14,132,1)
+ music(0)
+
+ signtext={"stuff you can do:","- read this sign","- sleep on the chair","- feed the chicken","- collect the eggs","- water the crops","- harvest the crops","- cook at the house","("..foodpedia.."%)","- fish in the lake","("..fishpedia.."%)","- pet the cat ("..catis..")"}
+
+ end
+
+	---------------------------- !
+
+ function _update60()
+ 
+ -- all the animations
+ anima+=1
+ 
+ -- le flowers
+ if anima>18 then
+    anima=0
+    flower+=1
+ if flower>1 then flower=0 end
+ end
+ 
+ -- smoke while cooking
+ if anima==9 and eggcounter>5 or anima==9 and cropcounter>15 then
+  smokes(22,2)
+ end
+ 
+ -- time for some action!  
+ if btnp(4) then
+    
+    idle=0
+    
+ -- are we fishing?
+ if doing==1 then
+ if bite<1 then
+    fishchance=flr(rnd(4))
+ if fishcahnce==0 and catis=="happy♥" then 
+    fishchance=flr(rnd(13))+3
+ end
+ if fishchance==3 then
+    fishchance=flr(rnd(13))+3
+ end
+    fishy(px+rodgo,py+7,fishchance)
+    logs=0
+    sfx(1)
+    statfish+=1
+    dset(1,statfish)
+      
+    for f in all(fish) do
+     if f.fishrnd==0 then fishpedia01=1 dset(11,1)
+ elseif f.fishrnd==1 then fishpedia02=1 dset(12,1)
+ elseif f.fishrnd==2 then fishpedia03=1 dset(13,1)
+ elseif f.fishrnd==3 then fishpedia04=1 dset(14,1)
+ elseif f.fishrnd==4 then fishpedia05=1 dset(15,1)
+ elseif f.fishrnd==5 then fishpedia06=1 dset(16,1)
+ elseif f.fishrnd==6 then fishpedia07=1 dset(17,1)
+ elseif f.fishrnd==7 then fishpedia08=1 dset(18,1)
+ elseif f.fishrnd==8 then fishpedia09=1 dset(19,1)
+ elseif f.fishrnd==9 then fishpedia010=1 dset(20,1)
+ elseif f.fishrnd==10 then fishpedia11=1 dset(21,1)
+ elseif f.fishrnd==11 then fishpedia12=1 dset(22,1)
+ elseif f.fishrnd==12 then fishpedia13=1 dset(23,1)
+ elseif f.fishrnd==13 then fishpedia14=1 dset(24,1)
+ elseif f.fishrnd==14 then fishpedia15=1 dset(25,1)
+ elseif f.fishrnd==15 then fishpedia16=1 dset(26,1) gotfugu=1 dset(7,1)
+    end
+    end
+ fishpedia=flr((fishpedia01+fishpedia02+fishpedia03+fishpedia04+fishpedia05+fishpedia06+fishpedia07+fishpedia08+fishpedia09+fishpedia10+fishpedia11+fishpedia12+fishpedia13+fishpedia14+fishpedia15+fishpedia16)*100/16)
+  if fishpedia>99 and foodpedia>99 then
+     completed="★"
+  end
+ end
+     
+ doing=0
+ rodx=128
+ rody=128
+ roda=69
+ i=0
+ pa=64 
+   
+ -- are we going to fish?
+ elseif doing==0 and pf==false and pget(px+13,py+6)==12 and py>75 and py<105 and px>53 then
+        doing=1
+        i=0
+        pa=66
+        rodgo=8
+        bite=50+flr(rnd(250))
+        sfx(4)
+ elseif doing==0 and pf==true and pget(px-6,py+6)==12 and py>75 and py<105 and px>53 then
+        doing=1
+        i=0
+        pa=66
+        rodgo=-8
+        bite=50+flr(rnd(250))
+        sfx(4)
+           
+ -- are we going to rest?
+ elseif doing==0 and px>32 and px<49 and py>42 and py<54 and logo>139 then
+        doing=2
+        px=41
+        py=47
+        pa=72
+        pf=false
+        iz=0
+        zzzz(px+3,py-4)
+        snore=0
+        sfx(5)
+        log="zzz"
+ elseif doing==2 and logos==0 then
+        doing=0
+        px=47
+    
+ -- are we going to cook?    
+ elseif doing==0 and px>28 and px<36 and py>32 and py<36 then
+     if eggcounter>5 or cropcounter>15 then
+        doing=3
+        px=-8
+        py=-8
+        foodon=1
+        logs=0
+         if cropcounter>15 then
+          cropcounter=0
+         else
+          eggcounter=0
+         end
+        foodchance=flr(rnd(15+gotfugu))
+        foods(26,-12,foodchance)
+        sfx(7)
+        statfood+=1
+        dset(2,statfood)
+    for fo in all(food) do
+     if fo.ft==0 then foodpedia01=1 dset(31,1)
+ elseif fo.ft==1 then foodpedia02=1 dset(32,1)
+ elseif fo.ft==2 then foodpedia03=1 dset(33,1)
+ elseif fo.ft==3 then foodpedia04=1 dset(34,1)
+ elseif fo.ft==4 then foodpedia05=1 dset(35,1)
+ elseif fo.ft==5 then foodpedia06=1 dset(36,1)
+ elseif fo.ft==6 then foodpedia07=1 dset(37,1)
+ elseif fo.ft==7 then foodpedia08=1 dset(38,1)
+ elseif fo.ft==8 then foodpedia09=1 dset(39,1)
+ elseif fo.ft==9 then foodpedia010=1 dset(40,1)
+ elseif fo.ft==10 then foodpedia11=1 dset(41,1)
+ elseif fo.ft==11 then foodpedia12=1 dset(42,1)
+ elseif fo.ft==12 then foodpedia13=1 dset(43,1)
+ elseif fo.ft==13 then foodpedia14=1 dset(44,1)
+ elseif fo.ft==14 then foodpedia15=1 dset(45,1)
+ elseif fo.ft==15 then foodpedia16=1 dset(46,1) gotfugu=0 dset(7,0)
+    end
+    end
+    foodpedia=flr((foodpedia01+foodpedia02+foodpedia03+foodpedia04+foodpedia05+foodpedia06+foodpedia07+foodpedia08+foodpedia09+foodpedia10+foodpedia11+foodpedia12+foodpedia13+foodpedia14+foodpedia15+foodpedia16)*100/16)
+     if fishpedia>99 and foodpedia>99 then
+        completed="★"
+     end
+    else
+    log="collect more eggs or crops!"
+    logs=0
+    end
+    
+ -- are we reading the sign?
+ elseif doing==0 and px>3 and px<13 and py>33 and py<36 and sign>139 then
+        doing=4
+        signtext={"stuff you can do:","- read this sign","- sleep on the chair","- feed the chicken","- collect the eggs","- water the crops","- harvest the crops","- cook at the house","("..foodpedia.."%)","- fish in the lake","("..fishpedia.."%)","- pet the cat ("..catis..")"}
+        signon=1
+        pa=73
+        log="press ➡️ or ⬅️ to navigate  "
+        sfx(19)
+ elseif doing==4 and signs==0 then
+        signon=0
+        sfx(20)
+    
+ -- are we petting the cat?
+ elseif doing==0 and px+8>cax and px<cax+8 and py+5>cay and py<cay+8 then
+        doing=5
+        pf=false
+        px=cax-6
+        py=cay
+        caf=true
+        cad=4
+        pa=75
+        cat=89
+ elseif doing==5 then
+        doing=0
+    
+ -- are we going to feed the chickens?
+ elseif doing==0 and seedmax<18 and px>9 and px<56 and py>68 and py<104 then
+        doing=6
+        pa=75
+        ii=0
+     if px<27 then pf=false end
+     if px>27 then pf=true end
+
+ -- are we going to water the plants?
+ elseif doing==0 and px>56 and px<111 and py>6 and py<47 then
+        doing=7
+        pa=141
+        cany=py
+     if px<87 then pf=false canx=px+8 end
+     if px>86 then pf=true canx=px-8 end
+
+ end
+
+ end
+  
+ if doing==1 then
+    i+=1
+ if i>3 then
+    i=0    
+    pa+=1
+ if pa>68 then
+    pa=68
+    roda=70
+    bite-=1
+ if bite<=0 and flr(rnd(10))==0 then
+    roda=71
+    bite=0
+    sfx(2)
+ end
+
+ elseif pa==67 then
+        rodx=px
+        rody=py-8
+        roda=69
+ elseif pa==68 then
+        rodx=px+rodgo
+        rody=py
+        roda=70
+ end
+      
+ end
+    
+ elseif doing==2 then
+        iz+=1
+     if snore>3 then snore=3 end
+     if iz>250 then
+        snore+=1
+        iz=0
+        zzzz(px+3,py-4)
+        if sleepyhead<420 then sleepyhead+=1 end
+        dset(10,sleepyhead)
+     if snore<3 then sfx(5) end
+ end
+ 
+ elseif doing==0 then
+ 
+ idle+=1
+ if idle>1200 then
+    pa=78
+    doing=8
+ end 
+ 
+ if btn(1) then
+    pf=false
+    pmx=1
+    px+=1
+    idle=0   
+ if px>8 and px<48 and py>14 and py<34 then
+    px-=1
+ end
+
+ if px>3 and px<14 and py>19 and py<34 then
+    px-=1
+ end
+      
+ if px>120 then px=120 end
+    i+=1
+ if i>5 then
+    i=0
+    pa+=1
+ if pa>65 then pa=64 end
+ end
+ 
+ elseif btn(0) then
+        pf=true
+        pmx=1
+        px-=1
+        idle=0
+     if px>8 and px<48 and py>14 and py<34 then
+        px+=1
+     end
+
+     if px>3 and px<14 and py>19 and py<34 then
+        px+=1
+     end
+
+     if px<1 then px=1 end
+        i+=1
+     if i>5 then
+        i=0
+     pa+=1
+     if pa>65 then pa=64 end
+     end
+     else
+     pmx=0
+     end
+  
+ if btn(3) then
+    pmy=1
+    py+=1
+    idle=0
+ if px>8 and px<48 and py>14 and py<34 then
+    py-=1
+ end
+
+ if px>3 and px<14 and py>19 and py<34 then
+    py-=1
+ end
+
+ if py>120 then py=120 end
+    i+=(1-pmx)
+ if i>5 then
+    i=0
+    pa+=1
+ if pa>65 then pa=64 end
+ end
+ 
+ elseif btn(2) then
+        pmy=1
+        py-=1
+        idle=0
+     if px>8 and px<48 and py>14 and py<34 then
+        py+=1
+     end
+    
+     if px>3 and px<14 and py>19 and py<34 then
+        py+=1
+     end
+
+     if py<1 then py=1 end
+        i+=(1-pmx)
+     if i>5 then
+        i=0
+        pa+=1
+     if pa>65 then pa=64 end
+     end
+     else
+     pmy=0
+     end
+  
+     if pmx==0 and pmy==0 then pa=64 end
+ end
+
+ -- weather
+    weather+=1
+ if weather>weathernew then
+    weather=0
+    weathernew=flr(rnd(1000))+300
+    rainorsnow=flr(rnd(1))
+    weathertype=flr(rnd(3))
+    if weathertype==0 then
+       growspeed=2
+    else
+       growspeed=1
+    end
+    weatherhow=flr(rnd(16))+1
+ end
+ 
+ -- rain
+    ii+=1
+ if ii>=weatherhow then
+    ii=0
+ if weathertype==0 then
+    rains()
+ end
+ end
+  
+  if plants==0 then
+   patches(70,14,1)
+   patches(80,15,2)
+   patches(88,16,3)
+   patches(98,13,4)
+   
+   patches(71,24,5)
+   patches(80,23,6)
+   patches(88,24,7)
+   patches(97,25,8)
+
+   patches(70,32,9)
+   patches(79,31,10)
+   patches(89,33,11)
+   patches(98,32,12)
+
+   patches(70,42,13)
+   patches(78,40,14)
+   patches(88,41,15)
+   patches(99,42,16)
+   
+   -- margoletta
+   chicks()
+   -- diana
+   chicks()
+   -- roberta
+   chicks()
+   
+   plants=1
+  end
+
+  for p in all(patch) do
+   
+   if p.watered==1 and flr(rnd(250))==0 then
+      sparks(p.x,p.y)
+   end
+  
+   if px+6>p.x and px<p.x+6 and py+6>p.y and py<p.y+6 and p.state>2 and p.picked==0 then
+    p.picked=1
+    logs=0
+     if p.state!=4 then
+      cropcounter+=1
+      log=ptype[p.patcht+1].." ("..cropcounter.."/16)"
+      statcrop+=1
+      dset(4,statcrop)
+     else
+      log="rotten crops"
+     end
+    sfx(0)
+   end
+   
+  if p.picked==1 then
+   p.x+=(p.rndx/10)
+   p.y-=p.rndy
+   p.rndy-=.075
+    if p.y>128 then
+     patches(p.xx,p.yy,p.a)
+     del(patch,p)
+    end
+  else
+   
+   if watered==1 then
+    
+   if py>4 and py<19 and p.a<5 then
+    p.watered=1
+   elseif py>18 and py<27 and p.a>4 and p.a<9 then
+    p.watered=1
+   elseif py>26 and py<36 and p.a>8 and p.a<13 then
+    p.watered=1
+   elseif py>35 and py<47 and p.a>12 then
+    p.watered=1
+   end
+
+   end
+   
+   if p.watered==1 then
+      p.planted+=growspeed
+   end
+   
+   if p.planted>3000 then
+    p.planted=0
+     if p.state<3 then
+      p.state+=1
+      if p.state==3 then
+         p.watered=1
+      else
+      p.watered=0
+      end
+     else
+      p.watered=1
+      p.due+=1
+       if p.due>3 then
+        p.due=3
+        p.state=4
+       end
+     end
+   end
+	 
+	 end
+	 
+	 end
+
+	 if pget(px+4,py+7)==12 and dropis<3 and doing==0 then
+	  if btn(0) or btn(1) or btn(2) or btn(3) then
+	   dropis+=1
+	   drops(px+4,py+8)
+	   sfx(3)
+	  end
+	 end
+	 
+	 for d in all(drop) do
+   d.x+=(d.rndx/10)
+   d.y-=d.rndy
+   d.rndy-=.3
+    if d.y>d.yy then
+     dropis-=1
+     del(drop,d)
+    end
+	 end
+	 
+	 for wat in all(water) do
+	  if pf==false then
+      wat.x+=.5
+   else
+      wat.x-=.5
+   end
+      wat.y-=wat.rndy
+      wat.rndy-=.1
+   if wat.y>py+7 then
+      drops(wat.x,wat.y)
+      del(water,wat)
+    end
+	 end
+
+	 
+	 for e in all(egg) do
+	 if e.collected == 0 then
+	  
+   if e.y<e.yy then
+    e.x+=(e.rndx/10)
+   end
+    e.y-=e.rndy
+    e.rndy-=.075
+     if e.y>e.yy then
+      e.y=e.yy
+     end
+   if px+6>e.x and px<e.x+4 and py+8>e.y and py<e.y+7 and e.y==e.yy then
+    e.rndx=-1+flr(rnd(3))
+	   e.rndy=2
+	   e.collected=1
+	   eggm-=1
+	   if e.eggt==0 then
+	    eggcounter+=1
+	    log="egg ("..eggcounter.."/6)"
+	   else
+	    eggcounter+=2
+	    log="golden egg ("..eggcounter.."/6)"
+	   end
+	   logs=0
+	   sfx(0)
+	   stateggs+=1
+    dset(3,stateggs)
+   end
+
+  else
+    
+	   e.x+=(e.rndx/10)
+    e.y-=e.rndy
+    e.rndy-=.075
+     if e.y>128 then
+       del(egg,e)
+     end
+     
+  end
+  
+	 end
+
+	 for c in all(chick) do
+   c.i+=1
+    if c.i>5 then
+     c.i=0
+     c.dir=0
+     c.a=91
+    end
+   
+   if c.eggtimer>0 and c.fed==1 and eggm<3 then
+    c.eggtimer-=1
+   end
+   
+   if c.eggtimer<=0 and c.fed==1 and eggm<3 then
+    eggs(c.x-1,c.y)
+    eggm+=1
+    c.fed=0
+    sfx(6)
+   elseif c.eggtimer<=0 and c.fed==1 and eggm==3 then
+    c.eggtimer=flr(rnd(2500))+2500
+   end
+     
+   if c.dir==0 then
+    if flr(rnd(50))==0 then
+     c.dir=flr(rnd(5))+1
+     c.i=0
+    end
+   elseif c.dir==1 then
+    c.x+=1
+     if c.x>48 then
+      c.x=48
+     end
+    c.f=false
+   elseif c.dir==2 then
+    c.x-=1
+     if c.x<16 then
+      c.x=16
+     end
+    c.f=true
+   elseif c.dir==3 then
+    c.y+=1
+     if c.y>102 then
+      c.y=102
+     end
+   elseif c.dir==4 then
+    c.y-=1
+     if c.y<68 then
+      c.y=68
+     end
+   elseif c.dir==5 then
+     c.a=92
+      for se in all(seed) do
+       if c.x+10>se.x and c.x-1<se.x and c.y+12>se.y and c.y+6<se.y then
+       del(seed,se)
+       statseed+=1
+        if eggm<3 then
+         if c.fed==0 then
+          c.eggtimer=flr(rnd(2500))+2500
+         end
+          c.fed=1
+        end
+       dset(6,statseed)
+       sfx(9)
+       seedmax-=1
+       end
+      end
+   end
+  end
+	 
+	 for f in all(fish) do
+	  log=ftype[f.fishrnd+1].." ("..fishpedia.."%)"
+   f.x+=(f.rndx/10)
+   f.y-=f.rndy
+   f.rndy-=.075
+    if f.y>128 then
+     del(fish,f)
+    end
+	 end
+	 
+	 for z in all(zzz) do
+   z.x+=z.rndx
+   z.y-=.5
+   if z.dir==0 then
+    z.rndx-=.1
+    if z.rndx<-1 then
+    z.rndx=-1
+    z.dir=1
+    end
+   else
+    z.rndx+=.1
+    if z.rndx>1 then
+    z.rndx=1
+    z.dir=0
+    end
+   end
+    if z.y<-8 then
+     del(zzz,z)
+    end
+	 end
+
+  for sm in all(smoke) do
+ 	 sm.y-=1
+ 			if sm.y<-8 then
+ 				del(smoke,sm)
+ 			end
+	 end
+
+  for r in all(rain) do
+ 	 r.y+=3-(rainorsnow*2)
+ 	 r.x-=1-(rainorsnow*.75)
+ 			if r.y>128 then
+ 				del(rain,r)
+ 			end
+ 			if pget(r.x,r.y+5)==12 and flr(rnd(10))==0 then
+ 			 drops(r.x-1,r.y+5)
+ 			 sfx(25+flr(rnd(3)),2,0)
+ 				del(rain,r) 			 
+ 			end
+	 end
+	 
+	 for fo in all(food) do
+	  log=foodt[fo.ft+1].." ("..foodpedia.."%)"
+	  fo.i+=1
+	   if fo.i==120 then
+	    foodon=0
+	    sfx(8) 
+	   end
+	  if foodon==1 then
+	   fo.fs-=1
+     if fo.fs<0 then fo.fs=0 end
+    fo.y+=fo.fs
+   else
+    fo.fs+=1
+     if fo.fs>11 then
+      doing=0
+      px=32
+      py=34   
+      del(food,fo)
+     end
+    fo.y-=fo.fs
+	  end
+	 end
+	 
+	 if log!="" then
+	  logs+=1
+	   if logs>175 then
+	    if logy<20 then
+	     logy+=1
+	    else
+	     logs=0
+	     log=""
+	     logy=20
+	    end
+	   else
+	    if logy>0 then
+	     logy-=1
+	    end
+	   end
+	 end
+	 
+	 --bird
+	 bx-=1
+	 by-=1
+   if bx<-8 then
+	   bx=flr(rnd(256))+128
+	   by=384
+   end
+  iii+=1
+   if iii>10 then
+    iii=0
+    ba+=1
+     if ba>85 then ba=82 end
+   end
+
+	 --cloud
+	 cx-=.1
+	  if cx<-24 then
+	   cx=flr(rnd(400))+128
+	   cy=flr(rnd(128))-8
+   end
+   
+  -- le logo
+  if doing==2 then
+   logos-=1
+    if logos<0 then logos=0 end
+   logo-=logos
+  else
+   logos+=1
+    if logos>14 then logos=14 logo=140 end
+   logo+=logos
+  end
+
+  -- le sign
+  if doing==4 then
+   if fishpedia>99 and foodpedia>99 then
+    completed="★"
+   end
+   if signon==1 then
+   signs-=1
+    if signs<0 then signs=0 end
+   sign-=signs
+   
+   if btn(0) then
+      signtext={"stuff you can do:","- read this sign","- sleep on the chair","- feed the chicken","- collect the eggs","- water the crops","- harvest the crops","- cook at the house","("..foodpedia.."%)","- fish in the lake","("..fishpedia.."%)","- pet the cat ("..catis..")"}
+   elseif btn(1) then
+      if happycat>4999 then paw1=1 dset(51,1) end
+      if foodpedia010==1 and foodpedia012==1 and foodpedia013==1 then paw2=1 dset(52,1) end
+      if jumps>999 then paw3=1 dset(53,1) end
+      if sleepyhead>419 then paw4=1 dset(54,1) end
+      if flr(displaytime/60)>120 then paw5=1 dset(55,1) end
+      if completed=="★" then paw6=1 dset(56,1) end
+      if paw1==1 then paws1="♥" end
+  				if paw2==1 then paws2="♥" end
+      if paw3==1 then paws3="♥" end
+      if paw4==1 then paws4="♥" end
+      if paw5==1 then paws5="♥" end
+      if paw6==1 then paws6="♥" end 
+      signtext={"pawchievements:",""..paws1.." a happy cat ("..flr((happycat/100)*100/50).."%)",""..paws2.." eggstravaganza!",""..paws3.." farm workout ("..flr((jumps/100)*100/20).."%)",""..paws4.." regeneration ("..flr((sleepyhead/10)*100/42).."%)",""..paws5.." time in a bottle.",""..paws6.." 200 percent!","","","","",""}
+   end
+   
+  else
+   signs+=1
+    if signs>18 then signs=18 sign=140 doing=0 end
+   sign+=signs
+    end
+  end
+  
+  -- petting, whoa!
+  if doing==5 then
+   i+=1
+   if i>19 then
+    i=0
+    statcat+=50
+    if statcat>1000 then
+     statcat=1000
+    end
+   end
+   if i%10==0 then pa+=1 cat+=1
+    if pa>75 then pa=74 cat=89 end
+   end
+  end
+  
+  -- may i interest you in something seedy?
+  if doing==6 then
+   i+=1
+   if i>6 then
+    sfx(10)
+    i=0
+    seeding+=1
+     if seeding>5 then
+      seeding=0
+      doing=0
+     end
+    if pf==false then
+     seeds(px+8,py+4)
+     seedmax+=1
+    else
+     seeds(px-1,py+4)
+     seedmax+=1
+    end
+   if i%10==0 then pa+=1
+    if pa>76 then pa=75 end
+   end
+  end
+  end
+  
+ -- let's water the crops!
+ if doing==7 then
+   watered=1   
+   i+=1
+   if i>6 then
+    sfx(28)
+    i=0
+    seeding+=1
+    if pf==false and seeding<16 then
+     waters(px+12,py)
+    elseif pf==true and seeding<16 then
+     waters(px-7,py)
+    end
+     if seeding>18 then
+      seeding=0
+      cany=128
+      pa=64
+      watered=0
+      doing=0
+     end
+  end
+  end
+  
+  -- doing a little workout
+  if doing==8 then
+     if pa<77 or jump==0 then pa=77 end
+     if btn(0) or btn(1) or btn(2) or btn(3) then idle=0 doing=0 pa=64 end
+     if btn(4) then jump=1 else jump=0 end
+     if anima%10==0 and jump==1 then
+        pa+=1
+        if pa>79 then
+           pa=78
+           sfx(29)
+           if jumps<2000 then jumps+=1 end
+           dset(8,jumps)
+        end
+     end
+  end
+
+  -- le cat
+  if doing!=5 then
+     
+     cai+=(1-catsleep)
+     if cai>15 then
+        cai=0
+        cad=flr(rnd(50))
+         if cad==4 and flr(rnd(3))==0 then
+            catsleep=1
+            catwakeup=0
+         end
+        statcat-=1
+         if statcat<0 then
+            statcat=0
+         end
+         if statcat<200 then
+            catis="sad"
+         elseif statcat<500 then
+            catis="okayish"
+         else
+            catis="happy♥"
+            if happycat<5000 then happycat+=1 end
+         end 
+     end
+  
+  -- le cat is not sleeping!   
+  if catsleep==0 then
+   
+   if cad<4 and cai%5==0 then
+      cat+=1
+       if cat>88 then
+          cat=86
+       end
+   end
+   if cad==0 then
+      caf=false
+      cax+=1
+       if cax>119 then
+          cax=119
+          caf=true
+          cai=100
+          cat=86
+       end
+   elseif cad==1 then
+          caf=true
+          cax-=1
+           if cax<57 then
+              cax=57
+              caf=false
+              cai=100
+              cat=86
+           end
+   elseif cad==2 then
+          cay+=.5
+           if cay>71 then
+              cay=71
+              cai=100
+              cat=86
+           end
+   elseif cad==3 then
+          cay-=.5
+           if cay<55 then
+              cay=55
+              cai=100
+              cat=86
+           end
+
+   else
+    cat=86
+  end
+  
+  -- shsh, le cat is sleeping! 
+  else
+   cat=95
+   catwakeup+=1
+    if catwakeup%200==0 then
+       zzzz(cax+3,cay)
+    end
+    if catwakeup>598 then
+       catsleep=0
+    end
+  end
+ end
+   
+  -- the seeds
+  for se in all(seed) do
+   if se.active==1 then
+    if pf==false then
+     se.rndy+=.1
+     se.x+=se.rndx
+      if se.x>48 then se.x=48 se.y+=1 end
+     se.y+=se.rndy
+     if se.y>=py+se.yy then
+      se.y=py+se.yy
+      se.active=0
+     end
+    else
+     se.rndy+=.1
+     se.x-=se.rndx
+      if se.x<16 then se.x=16 se.y+=1 end
+     se.y+=se.rndy
+     if se.y>=py+se.yy then
+      se.y=py+se.yy
+      se.active=0
+     end
+    end
+   end
+  end
+  
+  butterfly()
+  
+  if pa==65 and doing==0 then phop=1 else phop=0 end
+
+  -- sparks
+  for spa in all(spark) do
+   if anima%2==0 then
+      spa.i+=1
+      if spa.i>6 then
+         del(spark,spa)
+      end
+   end
+  end 
+ 
+ -- overall play time
+ displaytime=flr(time()-starttime)+playtime
+   if displaytime%10==0 then
+    dset(0,displaytime)
+    dset(5,statcat)
+    dset(9,happycat)
+   end
+ end
+	
+	---------------------------- !
+
+ function _draw()
+
+  cls()
+  map(0,0,0,0,16,16,0)
+  
+  -- the flowers
+  spr(162+flower,56,24)
+  spr(163-flower,8,80)
+  spr(162+flower,16,120)
+  spr(163-flower,56,88)
+  spr(162+flower,104,72)
+  spr(163-flower,104,120)
+  spr(162+flower,88,56)
+    
+  for p in all(patch) do
+   spr(11+(p.patcht*16)+p.state,p.x,p.y)
+  end
+  
+  for spa in all(spark) do
+   spr(176+spa.i,spa.x,spa.y)
+  end 
+  
+  -- the drops
+  for d in all(drop) do
+   pset(d.x,d.y,6)
+  end
+  
+  -- the seeds
+  for se in all(seed) do
+   pset(se.x,se.y,15)
+  end 
+
+  -- teach your mmma about it!
+  for e in all(egg) do
+   spr(93+e.eggt,e.x,e.y)
+  end
+
+  -- chickens!
+  for c in all(chick) do
+   spr(c.a,c.x,c.y,1,1,c.f,false)
+  end
+  
+  -- le cat
+  spr(cat,cax,cay,1,1,caf,false)
+  
+  -- he/she/xie
+  spr(pa,px,py-phop,1,1,pf,false)
+  
+  -- hi, i'm rod
+  spr(roda,rodx,rody,1,1,pf,false)
+
+  -- hi, i'm a watering can
+  spr(139,canx,cany,1,1,pf,false)
+
+  -- and i am water!
+  for wat in all(water) do
+  spr(140,wat.x,wat.y)
+  end
+  
+  -- the roof
+  spr(8,16,8)
+  spr(10,24,8)
+  spr(10,32,8)
+  spr(9,40,8)
+  spr(137,16,16)
+  spr(24,24,16)
+  spr(24,32,16)
+  spr(138,40,16)
+  spr(134,22,4)
+  
+  for sm in all(smoke) do
+   spr(135,sm.x,sm.y)
+  end
+  
+  for z in all(zzz) do
+   spr(164,z.x,z.y)
+  end
+  
+  -- thanks for all the fish!
+  for f in all(fish) do
+   spr(96+f.fishrnd,f.x,f.y)
+  end
+
+  -- butterfly
+  spr(banim,bux,buy,1,1,butf,false)
+   
+  -- food on the table!
+  for fo in all(food) do  
+   spr(144,fo.x-4,fo.y+2,2,1)
+   spr(112+fo.ft,fo.x,fo.y)
+  end
+
+  -- congratulations  
+  print(completed,3,3,9)
+
+  -- sign
+  rect(8,sign-1,119,sign+109,9)
+  rectfill(9,sign,118,sign+108,14)
+  print(signtext[1],12,sign+3,9)
+  print(signtext[2],12,sign+13,9)
+  print(signtext[3],12,sign+21,9)
+  print(signtext[4],12,sign+29,9)
+  print(signtext[5],12,sign+37,9)
+  print(signtext[6],12,sign+45,9)
+  print(signtext[7],12,sign+53,9)
+  print(signtext[8],12,sign+61,9)
+  print(signtext[9],92,sign+61,8)
+  print(signtext[10],12,sign+69,9)
+  print(signtext[11],88,sign+69,8)
+  print(signtext[12],12,sign+77,9)
+  print("playtime: "..flr(displaytime/60).." min",12,sign+89,9)
+  print("2021    donswelt.de - v1.3",12,sign+101,9)  
+  print("♥",32,sign+101,8 )  
+  
+  for r in all(rain) do
+   spr(80+rainorsnow,r.x,r.y)
+  end
+  
+  -- title
+  rectfill(25,logo-3,101,logo+21,4)
+  rect(24,logo-4,102,logo+22,9)
+  spr(131,21,logo-6,3,2)
+  spr(131,35,logo+9,3,2)
+  spr(131,82,logo-7,3,2)
+  spr(192,28,logo,9,3)
+  
+  -- le bird
+  spr(ba,bx,by)
+  
+  -- le cloud
+  spr(131,cx,cy,3,2)
+  
+  print(""..log.."",hcenter(""..log..""),119+logy,9)
+ 
+ -- print(playtime,3,11,9)
+
+ -- print(""..fishpedia01.."-"..fishpedia02.."-"..fishpedia03.."-"..fishpedia04.."-"..fishpedia05.."-"..fishpedia06.."-"..fishpedia07.."-"..fishpedia08.."-"..fishpedia09.."-"..fishpedia10.."-"..fishpedia11.."-"..fishpedia12.."-"..fishpedia13.."-"..fishpedia14.."-"..fishpedia15.."-"..fishpedia16.."",2,1,9)
+ -- print(watered,2,11,9)
+  
+ -- print(""..foodpedia01.."-"..foodpedia02.."-"..foodpedia03.."-"..foodpedia04.."-"..foodpedia05.."-"..foodpedia06.."-"..foodpedia07.."-"..foodpedia08.."-"..foodpedia09.."-"..foodpedia10.."-"..foodpedia11.."-"..foodpedia12.."-"..foodpedia13.."-"..foodpedia14.."-"..foodpedia15.."-"..foodpedia16.."",2,111,9)
+ -- print(px..""..py.."",2,1,9)
+ -- print(""..happycat..""..flr((happycat/100)*100/50),2,9,9)
+
+ end
+ 
+	-------- functions --------- !
+ 
+ function rains(x,y)
+	 local r={
+		 x=flr(rnd(162)),
+		 y=-8,
+  }
+  add(rain,r)
+ end
+ 
+ function drops(x,y)
+	 local d={
+		 x=x,
+		 y=y,
+		 yy=y,
+	  rndx=-1+flr(rnd(3)),
+	  rndy=1+rnd(2),
+  }
+  add(drop,d)
+ end
+ 
+ function seeds(x,y)
+	 local se={
+		 x=x,
+		 y=y,
+		 yy=flr(rnd(5))+4,
+	  rndx=(flr(rnd(3))+1),
+	  rndy=(rnd(3)+1)/10,
+	  active=1,
+  }
+  add(seed,se)
+ end
+
+ function waters(x,y)
+	 local wat={
+		 x=x,
+		 y=y,
+	  rndx=(flr(rnd(3))+1),
+	  rndy=.5+rnd(1),
+	  watered=0,
+  }
+  add(water,wat)
+ end
+ 
+ function eggs(x,y)
+	 local e={
+		 x=x,
+		 y=y,
+		 yy=y,
+		 eggt=flr(rnd(2)),
+		 collected=0,
+	  rndx=-1+flr(rnd(3)),
+	  rndy=2,
+  }
+  add(egg,e)
+ end
+
+ function fishy(x,y,b)
+	 local f={
+		 x=x,
+		 y=y,
+		 fishrnd=b,
+	  rndx=-1+flr(rnd(3)),
+	  rndy=2,
+  }
+  add(fish,f)
+ end
+ 
+ function smokes(x,y)
+	 local sm={
+		 x=x,
+		 y=y,
+	  }
+  add(smoke,sm)
+ end
+ 
+ function foods(x,y,a)
+	 local fo={
+		 x=x,
+		 y=y,
+		 i=0,
+		 ft=a,
+		 fs=11,
+	  }
+  add(food,fo)
+ end
+
+ function chicks()
+	 local c={
+		 a=91,
+		 x=16+flr(rnd(32)),
+	  y=68+flr(rnd(34)),
+	  dir=0,
+	  speed=-4,
+	  f=false,
+	  fed=0,
+	  i=0,
+	  eggtimer=0
+  }
+  add(chick,c)
+ end
+ 
+ function sparks(x,y)
+	 local spa={
+		 x=x+flr(rnd(4)),
+	  y=y+flr(rnd(4)),
+	  i=0,
+  }
+  add(spark,spa)
+ end
+
+ function zzzz(x,y)
+	 local z={
+		 x=x,
+		 y=y,
+		 dir=0,
+	  rndx=1,
+  }
+  add(zzz,z)
+ end
+ 
+ function patches(x,y,a)
+	 local p={
+	 x=x,
+	 y=y,
+	 a=a,
+	 xx=x,
+	 yy=y,
+	 patcht=flr(rnd(4)),
+	 rndx=-1+flr(rnd(3)),
+	 rndy=2,
+	 state=0,
+	 due=0,
+	 picked=0,
+	 watered=0,
+	 planted=time(),
+  }
+  add(patch,p)
+ end
+
+ function hcenter(s)
+  -- screen center minus the
+  -- string length times the 
+  -- pixels in a char's width,
+  -- cut in half
+  return 64-#s*2
+ end
+ 
+  function butterfly()
+  butter+=1
+   if butter>5 then
+    butter=0
+    banim+=1
+     if banim>161 then
+      banim=160
+     end
+     
+   bmove+=1
+    if bmove>=20 then
+     budx=flr(rnd(3))
+     budy=flr(rnd(3))
+     bmove=0-flr(rnd(10))
+    end
+    
+   if budx==1 then
+    butf=true
+    bux+=1
+     if bux>128 then
+      bux=-8
+     end
+   elseif budx==2 then
+    butf=false
+    bux-=1
+     if bux<-8 then
+      bux=128
+     end
+   else
+   end
+   
+   if budy==1 then
+    buy+=1
+     if buy>70 then
+      buy=70
+     end
+   elseif budy==2 then
+    buy-=1
+     if buy<12 then
+      buy=12
+     end
+   else
+   end
+     
+  end
+
+ end
+
+-- pawchievements 
+  
+ function pawupdate()
+   if btnp(3) then titleinit()	end
+ end
+ 
+ function pawdraw()
+  cls(0)
+  print("pawchievements!",10,15,9)
+  print(paws1.." ",10,35,6+pawc1)
+  print(paws2.." ",10,45,6+pawc2)
+  print(paws3.." ",10,55,6+pawc3)
+  print(paws4.." ",10,65,6+pawc4)
+  print(paws5.." ",10,75,6+pawc5)
+  print(paws6.." ",10,85,6+pawc6)
+  print("press ⬇️ to return!",10,105,9)
+ end
